@@ -37,8 +37,30 @@ useEffect(()=> {
   preLoad()
 }, [])
 
+const updateAssets = (newAsset, result=crypto) => { // Assuming newAsset is a single item now
+  function prepareAsset(newAsset) {
+    // Wrap newAsset in an array so .map can be used
+    return [newAsset].map((asset) => {
+      const coin = result.find((c) => c.id === asset.id);
+      if (!coin) return null; // Handle case where coin is not found
+      return {
+        ...asset,
+        grow: asset.price < coin.price,
+        growPercent: percentDifference(asset.price, coin.price),
+        totalAmount: asset.amount * coin.price,
+        totalProfit: (asset.amount * coin.price) - (asset.amount * asset.price),
+      };
+    }).filter(asset => asset !== null); // Filter out any null values if a coin wasn't found
+  }
+
+  // Assuming `assets` is your current state and `setAssets` is the setter
+  setAssets(prevAssets => [...prevAssets, ...prepareAsset(newAsset)]);
+}
+
+
+
 return (
-    <CryptoContext.Provider value={{ loading, assets,crypto }}>
+    <CryptoContext.Provider value={{ loading, assets,crypto, updateAssets }}>
         {children}
     </CryptoContext.Provider>
 )

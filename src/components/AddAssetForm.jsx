@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   Select,
   Space,
@@ -22,16 +22,17 @@ export default function AddAssetForm({onClose}) {
 
   const [form] =  Form.useForm() 
   const [coin, setCoin] = useState(null);
-  const { crypto } = useCrypto();
+  const { crypto, updateAssets } = useCrypto();
   const [amount, setAmount] = useState(0);
   const [submitted, setSubmitted] = useState(false)
+  const assetRef = useRef()
 
 if (submitted) {
     return (
         <Result
     status="success"
     title="New Asset Successfully Added"
-    subTitle={`Added ${43} of ${coin.name} by price ${23}`}
+    subTitle={`Added ${assetRef.current.amount} of ${coin.name} by price ${assetRef.current.price}`}
     extra={[
       <Button type="primary" key="console" onClick={onClose}>
         Close
@@ -41,13 +42,19 @@ if (submitted) {
     )
 }
 
+
+
   const onFinish = (values) => {
-    setSubmitted(true)
     const newAsset = {
-        id: coin.id,
-        amount: values.price,
-        date:  Date.now()
-    }
+      id: coin.id,
+      price: values.price,
+      amount: values.amount,
+      date:  Date.now()
+    };
+    assetRef.current = newAsset;
+    console.log(newAsset);
+    setSubmitted(true);
+    updateAssets(newAsset)
   }
 
   const handleAmountChange = (value) => {
