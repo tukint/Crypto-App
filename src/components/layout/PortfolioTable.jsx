@@ -1,6 +1,10 @@
 import { Table } from "antd";
 import { useCrypto } from '../../context/appContext';
 
+const tableStyle= {
+  marginTop: '2%'
+};
+
 export default function PortfolioTable() {
     
 const {assets} = useCrypto();  
@@ -33,7 +37,9 @@ const dataSource =assets.map((ass, index ) => {
   ];
 
   return (
+ 
+      <Table style={tableStyle} pagination={false} dataSource={dataSource} columns={columns} />
 
-      <Table pagination={false} dataSource={dataSource} columns={columns} />
+
   )
 }

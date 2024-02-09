@@ -12,7 +12,7 @@ const headerStyle = {
   padding: "1rem",
   display: "flex",
   alignItems: "center",
-  backgroundColor: "white",
+  backgroundColor: '#001529',
   justifyContent: "space-between",
 };
 

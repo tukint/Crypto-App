@@ -10,7 +10,7 @@ const siderStyle = {
   textAlign: "center",
   lineHeight: "120px",
   color: "#fff",
-  backgroundColor: "#1677ff",
+  backgroundColor: '#001529',
   padding: "1rem",
 };
 
