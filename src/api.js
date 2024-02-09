@@ -1,13 +1,5 @@
-import { cryptoAssets, cryptoData } from './data'
+import { cryptoAssets } from './data'
 import { useState, useCallback } from "react";
-
-export function fakeFetchCrypto() {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(cryptoData)
-    }, 500)
-  })
-}
 
 export function fetchAssets() {
   return new Promise((resolve) => {

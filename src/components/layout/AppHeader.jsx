@@ -1,7 +1,6 @@
 import { Layout, Select, Space, Button, Modal, Drawer  } from "antd";
 import { useContext, useEffect, useState } from "react";
 import CryptoContext from "../../context/appContext";
-import { useCrypto } from "../../context/appContext";
 import CoinInfoModal from "../CryptoModal";
 import AddAssetForm from "../AddAssetForm";
 
@@ -58,7 +57,7 @@ export default function AppHeader(props) {
         open={select}
         onClick={() => setSelect(!select)}
         onSelect={handleSelect}
-        value='press "/" to open'
+        value='COINS - click or press "/" key to open'
         optionLabelProp="label"
         options={options}
         optionRender={(option) => (

@@ -2,13 +2,10 @@ import { useRef, useState } from "react";
 import {
   Select,
   Space,
-  Typography,
-  Flex,
   Divider,
   Form,
   Button,
   InputNumber,
-  DatePicker,
   Result
 } from "antd";
 import { useCrypto } from "../context/appContext";
@@ -52,13 +49,11 @@ if (submitted) {
       date:  Date.now()
     };
     assetRef.current = newAsset;
-    console.log(newAsset);
     setSubmitted(true);
     updateAssets(newAsset)
   }
 
   const handleAmountChange = (value) => {
-      console.log(value);
     form.setFieldsValue({
         total: +(value * coin.price).toFixed(2)
     })

@@ -2,6 +2,7 @@ import { Layout,Typography } from 'antd';
 import { useCrypto } from "../../context/appContext";
 import PortfolioChart from './PortfolioChart';
 import PortfolioTable from './PortfolioTable';
+
 const contentStyle = {
   textAlign: 'center',
   minHeight: 'calc(100vh - 60px)',

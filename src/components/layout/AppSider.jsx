@@ -1,10 +1,8 @@
 import { Layout, Card, Statistic, List, Typography, Spin, Tag } from "antd";
 import { ArrowDownOutlined, ArrowUpOutlined } from "@ant-design/icons";
-import { fakeFetchCrypto, fetchAssets } from "../../api";
-import { percentDifference, capitalize } from "../../utils";
+import { capitalize } from "../../utils";
 import { useContext } from "react";
 import CryptoContext from "../../context/appContext";
-import { useState, useEffect } from "react";
 
 const siderStyle = {
   textAlign: "center",
