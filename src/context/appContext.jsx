@@ -1,5 +1,5 @@
 import {  createContext, useEffect, useState } from 'react';
-import { fakeFetchCrypto, fetchAssets } from '../api';
+import { fakeFetchCrypto, fetchAssets, useHttp } from '../api';
 import { percentDifference } from '../utils';
 import { useContext } from 'react';
 
@@ -12,16 +12,16 @@ const CryptoContext = createContext({
 
 export function CryptoContextProvider ({children}) {
 
-const [loading, setLoading] = useState(false)
 const [crypto, setCrypto] = useState([])
 const [assets, setAssets] = useState([])
+const {loading, request, error, clearError} = useHttp();
 
 useEffect(()=> {
   async function preLoad(){
-    setLoading(true)
-    const {result} =  await fakeFetchCrypto()
+    const {result} =  await getAllCoins()
     const assets = await fetchAssets()
     setCrypto(result)
+    console.log(crypto);
     setAssets(assets.map((asset) => {
       const coin = result.find((c) => c.id == asset.id)
       return {
@@ -32,10 +32,33 @@ useEffect(()=> {
         ...asset,
       }
     }))
-    setLoading(false)
   }
   preLoad()
+  console.log(crypto);
 }, [])
+
+
+const getAllCoins = async () => {
+  console.log('this is start of api ');
+  try {
+    const res = await request(
+      'https://openapiv1.coinstats.app/coins',
+      'GET',
+      null,
+      {
+        'X-API-KEY': 'tMODKN8BMDKLCQk4Hk+o8048tUSaeHXiwLEVYUgAWts=',
+        'Accept': 'application/json'
+      }
+    );
+    console.log('this is api ', res.result);
+    return res;
+  } catch (error) {
+    console.error('Failed to fetch coins:', error);
+  }
+};
+
+
+
 
 const updateAssets = (newAsset, result=crypto) => { // Assuming newAsset is a single item now
   function prepareAsset(newAsset) {

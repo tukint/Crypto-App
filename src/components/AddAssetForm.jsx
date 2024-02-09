@@ -67,6 +67,7 @@ if (submitted) {
   if (!coin)
     return (
       <Select
+      style={{width: '100%'}}
         onSelect={(v) => setCoin(crypto.find((c) => c.id == v))}
         placeholder="Select Coin"
         options={crypto.map((coin) => ({
