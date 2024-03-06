@@ -56,24 +56,35 @@ const getAllCoins = async () => {
 
 
 
-const updateAssets = (newAsset, result=crypto) => { // Assuming newAsset is a single item now
+const updateAssets = (newAsset, result=crypto) => { 
   function prepareAsset(newAsset) {
-    // Wrap newAsset in an array so .map can be used
+ 
     return [newAsset].map((asset) => {
       const coin = result.find((c) => c.id === asset.id);
-      if (!coin) return null; // Handle case where coin is not found
+      if (!coin) return null; 
       return {
         ...asset,
         grow: asset.price < coin.price,
-        growPercent: percentDifference(asset.price, coin.price),
+        growPercent: 0,
         totalAmount: asset.amount * coin.price,
         totalProfit: (asset.amount * coin.price) - (asset.amount * asset.price),
       };
-    }).filter(asset => asset !== null); // Filter out any null values if a coin wasn't found
+    }).filter(asset => asset !== null);
   }
-
-  // Assuming `assets` is your current state and `setAssets` is the setter
-  setAssets(prevAssets => [...prevAssets, ...prepareAsset(newAsset)]);
+  const coin = result.find((c) => c.id === newAsset.id);
+  const existingAssetIndex = assets.findIndex(
+    (asset) => asset.id === newAsset.id
+  );
+  if (existingAssetIndex !== -1) {
+    // Update existing asset
+    const updatedCryptoAssets = [...assets]; // Create a copy
+    updatedCryptoAssets[existingAssetIndex].amount += newAsset.amount;
+    updatedCryptoAssets[existingAssetIndex].totalAmount += (newAsset.amount * coin.price);
+    updatedCryptoAssets[existingAssetIndex].growPercent = 0;
+    setAssets(updatedCryptoAssets);
+  } else {
+    setAssets(prevAssets => [...prevAssets, ...prepareAsset(newAsset)]);
+  }
 }
 
 
